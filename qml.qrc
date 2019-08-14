@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>chatelements/res/CONNECTED.png</file>
+        <file>chatelements/res/DIR.png</file>
+        <file>chatelements/scripts/ChatBase.js</file>
+        <file>chatelements/AvailUsers.qml</file>
+        <file>chatelements/MsgInputArea.qml</file>
+        <file>chatelements/MsgsLifeline.qml</file>
+        <file>chat.qml</file>
+        <file>chatelements/ChatControls.qml</file>
+    </qresource>
+</RCC>
