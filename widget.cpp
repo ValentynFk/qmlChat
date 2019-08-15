@@ -65,7 +65,7 @@ ChatWidget::ChatWidget(QWidget *parent) :
     setMinimumSize(200, 200);
     setMaximumSize(800, 800);
 
-    setGeometry(100, 100, 800, 500);
+    setGeometry(100, 100, 800, 800);
 
     box->addWidget(container);
     setLayout(box);

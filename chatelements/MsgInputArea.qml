@@ -9,4 +9,7 @@ Item {
         height: parent.height
               color: "silver"
           }
+    RowLayout {
+
+    }
 }
