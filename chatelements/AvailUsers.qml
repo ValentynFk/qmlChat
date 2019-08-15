@@ -25,7 +25,12 @@ Item {
             clip: true
 
             highlightFollowsCurrentItem: true
-            snapMode: ListView.SnapPosition
+            snapMode: ListView.SnapToItem
+
+            focus: true
+            interactive: true
+            flickableDirection: Flickable.VerticalFlick
+            boundsBehavior: Flickable.StopAtBounds
 
             model: availableUsersModel
         }
@@ -43,6 +48,10 @@ Item {
             ListElement { name: "Petia nickname"; connected: false; }
             //@disable-check M16
             ListElement { name: "Bohdan nickname"; online: true; connected: false; }
+            //@disable-check M16
+            ListElement { name: "Dima nickname"; online: true; connected: false; }
+            //@disable-check M16
+            ListElement { name: "Roman nickname"; online: true; connected: false; }
         }
 
         delegate: Component {
@@ -78,7 +87,6 @@ Item {
                         Layout.alignment: Qt.AlignCenter
                         Layout.leftMargin: 10
                         Layout.topMargin: 5
-                        Layout.bottomMargin: 5
 
                         Layout.fillHeight: true
                         Layout.fillWidth: true
