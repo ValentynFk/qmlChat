@@ -7,13 +7,6 @@ import QtQml.Models 2.12
 import "basicelements" as BasicElements
 
 Item {
-    /*
-    Rectangle {
-        width: parent.width
-        height: parent.height
-        color: "silver"
-    }
-    */
     ListView {
         id: listView
 
@@ -47,29 +40,47 @@ Item {
             //@disable-check M16
             ListElement { owns: true; author: "Someone"; message: "last one"; timestamp: "7 Jan 14:36" }
         }
+
         delegate: Column {
-            anchors.right: model.owns ? parent.right : undefined
-            spacing: 6
+            id: messageAttributesColumn
+
+            readonly property bool adjustRight: model.owns
+            anchors.right: messageAttributesColumn.adjustRight ?
+                               parent.right : undefined
+            anchors.left:  messageAttributesColumn.adjustRight ?
+                               undefined    : parent.left
+
+            spacing: 3
 
             Row {
-                id: messageRow
+                id: messageAttributesRow
+
+                anchors.right: messageAttributesColumn.adjustRight ?
+                                   parent.right : undefined
+                anchors.left:  messageAttributesColumn.adjustRight ?
+                                   undefined    : parent.left
+
                 spacing: 0
-                anchors.right: model.owns ? parent.right : undefined
 
                 Control {
-                    width: 10
-                    height: 15
+                    id: leftToothShape
+
                     anchors.bottom: messageBody.bottom
+                    width:  messageAttributesColumn.adjustRight ? 0 : 10
+                    height: messageAttributesColumn.adjustRight ? 0 : 15
+                    property string qml: messageAttributesColumn.adjustRight ?
+                                             "" : "basicelements/ToothShapeToLeft.qml"
 
-                    visible: !model.owns
-
-                    BasicElements.ToothShape {
+                    Loader {
                         anchors.fill: parent
-                        itemColor: "steelblue"
-                        leftOffset: 16
-                        maxHeight: 20
-                        leftToRight: false
-                        rightToLeft: true
+                        Component.onCompleted: {
+                            setSource(leftToothShape.qml,
+                                      {
+                                          itemColor: "steelblue",
+                                          leftOffset: 16,
+                                          maxHeight: 20
+                                      })
+                        }
                     }
                 }
 
@@ -77,78 +88,61 @@ Item {
                     id: messageBody
 
                     width: Math.min(messageText.implicitWidth + 24,
-                                    listView.width - 30)
+                                    listView.width - 70)
 
                     height: messageText.implicitHeight + 24
-                    color: model.owns ? "steelblue" : "steelblue"
+                    color: "steelblue"
 
                     border.width: 0
                     radius: 15
 
                     Label {
                         id: messageText
-                        text: model.message
-                        color: model.owns ? "black" : "black"
+
                         anchors.fill: parent
                         anchors.margins: 12
                         wrapMode: Label.Wrap
+
+                        text: model.message
+                        color: "white"
                     }
                 }
 
                 Control {
-                    width: 10
-                    height: 15
-                    visible: model.owns
-                    anchors.bottom: messageBody.bottom
+                    id: rightToothShape
 
-                    BasicElements.ToothShape {
+                    anchors.bottom: messageBody.bottom
+                    width:  messageAttributesColumn.adjustRight ? 10 : 0
+                    height: messageAttributesColumn.adjustRight ? 15 : 0
+                    property string qml: messageAttributesColumn.adjustRight ?
+                                             "basicelements/ToothShapeToRight.qml" : ""
+
+                    Loader {
                         anchors.fill: parent
-                        itemColor: "steelblue"
-                        leftOffset: 16
-                        maxHeight: 20
-                        leftToRight: true
-                        rightToLeft: false
+                        Component.onCompleted: {
+                            setSource(rightToothShape.qml,
+                                      {
+                                          itemColor: "steelblue",
+                                          leftOffset: 16,
+                                          maxHeight: 20
+                                      })
+                        }
                     }
                 }
             }
+
             Label {
                 id: timestampText
-                text: model.timestamp//Qt.formatDateTime(model.timestamp, "d MMM hh:mm")
-                color: "lightgrey"
-                anchors.right: model.owns ? parent.right : undefined
+
+                anchors.right: messageAttributesColumn.adjustRight ?
+                                   parent.right : undefined
+                anchors.left:  messageAttributesColumn.adjustRight ?
+                                   undefined    : parent.left
+
+                text: model.timestamp
+                color: "steelblue"
             }
         }
     }
-        /*
-        Control {
-            width : listView.width
-            height: listView.height / 10
-            //width: messageLoader.implicitWidth
-            //height: messageLoader.implicitHeight
-
-
-            Rectangle {
-                anchors.fill: parent
-                color: "green"
-            }
-
-            Loader {
-                id: messageLoader
-                onLoaded: console.log(messageLoader.item.implicitHeight);
-            }
-
-            Component.onCompleted: {
-                messageLoader.setSource(model.owns? "basicelements/OwnMessage.qml" : "basicelements/NeighborMessage.qml",
-                                     { "text": model.message,
-                                       "publicationDate": model.timestamp,
-                                       "color": "steelblue",
-                                       "textColor": "white",
-                                       "dateColor": "steelblue",
-                                       "width": parent.width,
-                                       "height": parent.height / 3});
-                // will trigger the onLoaded code when complete.
-            }
-        }
-        */
 }
 
