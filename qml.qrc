@@ -12,5 +12,7 @@
         <file>chatelements/basicelements/ToothShape.qml</file>
         <file>chatelements/basicelements/NeighborMessage.qml</file>
         <file>chatelements/basicelements/OwnMessage.qml</file>
+        <file>chatelements/basicelements/ToothShapeToLeft.qml</file>
+        <file>chatelements/basicelements/ToothShapeToRight.qml</file>
     </qresource>
 </RCC>
