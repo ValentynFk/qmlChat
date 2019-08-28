@@ -1,58 +1,79 @@
-import QtQuick 2.7
+import QtQuick          2.8
+import QtQml.Models     2.12
+import QtQuick.Layouts  1.3
 import QtQuick.Controls 2.0
-import QtQuick 2.8
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.12
-import "basicelements" as BasicElements
+import "basicelements"       as BasicElements
+import "scripts/ChatBase.js" as ChatBase
+// TODO: import pair storm chat
 
-Item {
-    ListView {
+Item
+{
+    id: messagesHistory
+
+    Rectangle
+    {
+        anchors.fill: parent
+        color: ChatBase.backgroundColor(ChatBase.globalTheme)
+    }
+    ListView
+    {
         id: listView
 
         anchors.fill: parent
-
         anchors.margins: 0
-        spacing: 1
-        clip: true
+        spacing:         5
 
+        clip:                        true
+        highlightMoveDuration:       300
         highlightFollowsCurrentItem: true
+        boundsBehavior:              Flickable.StopAtBounds
+
+        onCountChanged:
+        {
+            Qt.callLater( listView.positionViewAtEnd )
+        }
+        onHeightChanged:
+        {
+            listView.positionViewAtEnd()
+        }
 
         model: messagesModel
     }
-
-    DelegateModel {
+    DelegateModel
+    {
         id: messagesModel
 
+        // TODO: replace model
         model: ListModel {
             //@disable-check M16
-            ListElement { owns: false; author: "Someone"; message: "hello:)"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "Vasia nickname and something"; type: "ordinary"; content: "hello" }
             //@disable-check M16
-            ListElement { owns: true; author: "Volodya"; message: "hi to you"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "PairStorm"; type: "service"; content: "hello from Pair storm application" }
             //@disable-check M16
-            ListElement { owns: true; author: "Bob"; message: "abcd"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "PairStorm"; type: "service"; content: "you cannot log in twice" }
             //@disable-check M16
-            ListElement { owns: false; author: "Someone"; message: "hello again, \n\nI said:)"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "Diana nickname"; type: "ordinary"; content: "pruvit" }
             //@disable-check M16
-            ListElement { owns: true; author: "Eva"; message: "very long message very long message, very long message again and very long message"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "ValntynFk"; type: "ordinary"; content: "hello" }
             //@disable-check M16
-            ListElement { owns: false; author: "Max"; message: "other message"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "ValentynFk"; type: "ordinary"; content: "flkj dsalkfjdsalkfj dslk jflksda ffdsalhflkds halkfhdsalkh flhdsa klflkdsa;hf ksadhlkf; dshakfl;hdsalk ;flkdsa flk hsalkf hsdalk hf;lkdsahfdsa ;" }
             //@disable-check M16
-            ListElement { owns: true; author: "Someone"; message: "last one"; timestamp: "7 Jan 14:36" }
+            ListElement { authorName: "Peter"; type: "ordinary"; content: "hello" }
         }
 
-        delegate: Column {
+        delegate: Column
+        {
             id: messageAttributesColumn
 
-            readonly property bool adjustRight: model.owns
+            readonly property bool adjustRight: model.authorName === "ValentynFk" // TODO: change to global author name
+
             anchors.right: messageAttributesColumn.adjustRight ?
                                parent.right : undefined
             anchors.left:  messageAttributesColumn.adjustRight ?
                                undefined    : parent.left
 
-            spacing: 3
-
-            Row {
+            Row
+            {
                 id: messageAttributesRow
 
                 anchors.right: messageAttributesColumn.adjustRight ?
@@ -60,78 +81,167 @@ Item {
                 anchors.left:  messageAttributesColumn.adjustRight ?
                                    undefined    : parent.left
 
-                spacing: 0
-
-                Control {
+                Control
+                {
                     id: leftToothShape
+
+                    property string qml: messageAttributesColumn.adjustRight ?
+                                             "" : "basicelements/ToothShapeToLeft.qml"
 
                     anchors.bottom: messageBody.bottom
                     width:  messageAttributesColumn.adjustRight ? 0 : 10
                     height: messageAttributesColumn.adjustRight ? 0 : 15
-                    property string qml: messageAttributesColumn.adjustRight ?
-                                             "" : "basicelements/ToothShapeToLeft.qml"
 
-                    Loader {
+                    Loader
+                    {
                         anchors.fill: parent
-                        Component.onCompleted: {
+                        Component.onCompleted:
+                        {
                             setSource(leftToothShape.qml,
                                       {
-                                          itemColor: "steelblue",
+                                          itemColor:  messageBody.color,
                                           leftOffset: 16,
-                                          maxHeight: 20
+                                          maxHeight:  20
                                       })
                         }
                     }
                 }
 
-                Rectangle {
+                Rectangle
+                {
                     id: messageBody
 
-                    width: Math.min(messageText.implicitWidth + 24,
-                                    listView.width - 70)
+                    width:
+                    {
+                        return Math.min(Math.max(messageText.implicitWidth,
+                                                 messageAuthor.contentWidth) + 24,
+                                        messagesHistory.width - 70)
+                    }
+                    height: messageText.implicitHeight + 27
+                    radius: 10
 
-                    height: messageText.implicitHeight + 24
-                    color: "steelblue"
+                    color:
+                    {
+                        if (model.type === "ordinary")
+                        {
+                            return messageAttributesColumn.adjustRight                   ?
+                                   ChatBase.chatAuthorMessageColor(ChatBase.globalTheme) :
+                                   ChatBase.chatUserMessageColor(ChatBase.globalTheme)
+                        }
+                        if (model.type === "service")
+                        {
+                            return ChatBase.chatSystemMessageColor(ChatBase.globalTheme)
+                        }
+                    }
 
-                    border.width: 0
-                    radius: 15
-
-                    Label {
+                    TextEdit
+                    {
                         id: messageText
 
                         anchors.fill: parent
-                        anchors.margins: 12
-                        wrapMode: Label.Wrap
+                        anchors.margins:   10
+                        anchors.topMargin: 23
 
-                        text: model.message
-                        color: "white"
+                        selectByMouse: true
+                        readOnly:      true
+                        wrapMode:      Label.Wrap
+
+                        text: model.content
+                        color: ChatBase.chatMessageTextColor(ChatBase.globalTheme)
+
+                        MouseArea
+                        {
+                            anchors.fill: parent
+
+                            enabled:     false
+                            cursorShape: Qt.IBeamCursor
+                        }
+                    }
+                    RowLayout
+                    {
+                        anchors.fill: parent
+                        anchors.right: messageAttributesColumn.adjustRight ?
+                                           messageBody.right : undefined
+                        anchors.left: messageAttributesColumn.adjustRight ?
+                                           undefined : messageBody.left
+                        anchors.leftMargin:  10
+                        anchors.rightMargin: 15
+
+                        Label
+                        {
+                            id: messageAuthor
+
+                            Layout.alignment: messageAttributesColumn.adjustRight ?
+                                                  Qt.AlignRight : Qt.AlignLeft
+                            Layout.fillHeight: true
+                            Layout.topMargin: 4
+
+                            Layout.preferredWidth:
+                            {
+                                return Math.min(messageBody.width - 10,
+                                                messageAuthor.implicitWidth)
+                            }
+                            text:  qsTr("  " + model.authorName)
+                            clip:  true
+                            elide: Text.ElideRight
+                            color: ChatBase.chatMessageTextColor(ChatBase.globalTheme)
+
+                            font.pixelSize: 15
+                            font.family:    "consolas"
+                            font.bold:      true
+
+                            Image
+                            {
+                                width:  13
+                                height: 13
+
+                                mipmap:   true
+                                fillMode: Image.PreserveAspectFit
+
+                                source:
+                                {
+                                    if (model.type === "ordinary")
+                                    {
+                                        return "res/USER.svg"
+                                    }
+                                    if (model.type === "service")
+                                    {
+                                        return "res/SYSTEM.svg"
+                                    }
+                                }
+                                sourceSize: Qt.size(width, height)
+                            }
+                        }
                     }
                 }
-
-                Control {
+                Control
+                {
                     id: rightToothShape
+
+                    property string qml: messageAttributesColumn.adjustRight ?
+                                             "basicelements/ToothShapeToRight.qml" : ""
 
                     anchors.bottom: messageBody.bottom
                     width:  messageAttributesColumn.adjustRight ? 10 : 0
                     height: messageAttributesColumn.adjustRight ? 15 : 0
-                    property string qml: messageAttributesColumn.adjustRight ?
-                                             "basicelements/ToothShapeToRight.qml" : ""
 
-                    Loader {
+                    Loader
+                    {
                         anchors.fill: parent
-                        Component.onCompleted: {
+                        Component.onCompleted:
+                        {
                             setSource(rightToothShape.qml,
                                       {
-                                          itemColor: "steelblue",
+                                          itemColor:  messageBody.color,
                                           leftOffset: 16,
-                                          maxHeight: 20
+                                          maxHeight:  20
                                       })
                         }
                     }
                 }
             }
-
-            Label {
+            Label
+            {
                 id: timestampText
 
                 anchors.right: messageAttributesColumn.adjustRight ?
@@ -139,8 +249,12 @@ Item {
                 anchors.left:  messageAttributesColumn.adjustRight ?
                                    undefined    : parent.left
 
-                text: model.timestamp
-                color: "steelblue"
+                text: "  datehere  " //TODO: paste normal date
+                color: ChatBase.backgroundTextColor(ChatBase.globalTheme)
+
+                font.pixelSize: 18
+                font.family:    "consolas"
+                font.bold:      true
             }
         }
     }

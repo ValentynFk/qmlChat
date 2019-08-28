@@ -30,6 +30,10 @@ ChatWidget::ChatWidget(QWidget *parent) :
     //view->show();
 
     m_context = view->engine()->rootContext();
+    //m_context->setContextProperty(QStringLiteral("something"), &something)
+
+
+
     //QQmlContext * context = view->engine()->rootContext();
     //context->setContextProperty("mode", "disabled");
 
@@ -52,6 +56,7 @@ ChatWidget::ChatWidget(QWidget *parent) :
     QWidget *container = QWidget::createWindowContainer(view, this);
     container->setContextMenuPolicy(Qt::NoContextMenu);
     container->setContentsMargins(0, 0, 0, 0);
+    container->update();
     //container->hide();
     //container->setMinimumSize(200, 200);
     //container->setMaximumSize(200, 200);
@@ -59,7 +64,7 @@ ChatWidget::ChatWidget(QWidget *parent) :
     container->setFocusPolicy(Qt::StrongFocus);
 
 
-    setWindowIcon(QIcon(":/chatelements/res/CONNECTED.png"));
+    //setWindowIcon(QIcon(":/chatelements/res/CONNECTED.png"));
     setWindowTitle(QString("QML chat"));
     setEnabled(false);
     setMinimumSize(200, 200);
@@ -74,6 +79,8 @@ ChatWidget::ChatWidget(QWidget *parent) :
 void ChatWidget::resizeEvent(QResizeEvent *)
 {
     qDebug() << "in resize event";
+    update();
+    repaint();
 }
 
 ChatWidget::~ChatWidget()
