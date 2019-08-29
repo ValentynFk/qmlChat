@@ -1,7 +1,7 @@
 .pragma library
 
 // TODO: remove global theme variable & replace corresponding statements
-const globalTheme = "white"
+const globalTheme = "dark"
 
 const golden_ratio    = 1.61803398875
 const gWhiteThemeName = "white"
@@ -43,7 +43,9 @@ function chatUserMessageColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#0f2c49";
+        return "#436697";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
@@ -53,6 +55,8 @@ function chatAuthorMessageColor(themeName)
     {
     case gWhiteThemeName:
         return "#4e6072";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
@@ -61,7 +65,9 @@ function chatSystemMessageColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#285852";
+        return "#438497";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
@@ -70,19 +76,22 @@ function chatMessageTextColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#eef2f6";
+        return "#eaf4ff";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
 function chatInputBackgroundColor(themeName)
 {
-    return Qt.darker(backgroundColor(themeName), 1.1)
-    /*
+
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#8da9bf";
-    }*/
+        return "#c3d5e8";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }
 
 function chatInputTextColor(themeName)
@@ -90,7 +99,9 @@ function chatInputTextColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#1e262d";
+        return "#1e3956";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
@@ -100,6 +111,8 @@ function chatInputSelectionBackColor(themeName)
     {
     case gWhiteThemeName:
         return "#1e262d";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
@@ -109,71 +122,73 @@ function chatInputSelectionTextColor(themeName)
     {
     case gWhiteThemeName:
         return "#1e262d";
+    case gDarkThemeName:
+        return "#b3bfc9";
     }
 }
 
 function chatInputTextHintColor(themeName)
 {
-    return backgroundColor(themeName);
-    /*
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#1e262d";
-    }*/
+        return "#7f8e9d";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }
 
 function chatUsersBackgroundColor(themeName)
 {
-    return Qt.darker(backgroundColor(themeName), 1.1)
-    /*
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#8da9bf";
-    }*/
+        return "#bdd3ed";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }
 
 function chatUsersTextColor(themeName)
 {
-    return "white";//Qt.darker(chatTextColor(themeName), 1.1)
-    /*
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#8da9bf";
-    }*/
+        return "#516680";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }
 
 function chatUsersSpacerColor(themeName)
 {
-    return Qt.darker(backgroundColor(themeName), 1.3)
-    /*
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#8da9bf";
-    }*/
+        return "#7798c0";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }
 
 function switchTurnedOnColor(themeName)
 {
-    return Qt.darker(backgroundColor(themeName), 1.3)
-    /*
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#8da9bf";
-    }*/
+        return "#68afa5";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }
 
 function switchTurnedOffColor(themeName)
 {
-    return Qt.darker(backgroundColor(themeName), 1.3)
-    /*
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#8da9bf";
-    }*/
+        return "#e5f0f8";
+    case gDarkThemeName:
+        return "#b3bfc9";
+    }
 }

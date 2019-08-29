@@ -60,7 +60,7 @@ Item
                 selectedTextColor: ChatBase.chatInputSelectionTextColor(ChatBase.globalTheme)
 
                 font.pixelSize: 20
-                font.family:    "consolas"
+                font.family:    "Consolas"
 
                 onAccepted:
                 {
@@ -83,7 +83,7 @@ Item
                     visible: !messageInput.text && !messageInput.activeFocus
 
                     font.pixelSize: 20
-                    font.family:    "consolas"
+                    font.family:    "Consolas"
 
                     color: ChatBase.chatInputTextHintColor(ChatBase.globalTheme)
                 }

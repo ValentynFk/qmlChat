@@ -187,7 +187,7 @@ Item
                             color: ChatBase.chatMessageTextColor(ChatBase.globalTheme)
 
                             font.pixelSize: 15
-                            font.family:    "consolas"
+                            font.family:    "Consolas"
                             font.bold:      true
 
                             Image
@@ -253,7 +253,7 @@ Item
                 color: ChatBase.backgroundTextColor(ChatBase.globalTheme)
 
                 font.pixelSize: 18
-                font.family:    "consolas"
+                font.family:    "Consolas"
                 font.bold:      true
             }
         }

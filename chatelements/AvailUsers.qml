@@ -85,7 +85,7 @@ Item
 
                         font.pixelSize: userElement.height /
                                         (ChatBase.golden_ratio)
-                        font.family:    "consolas"
+                        font.family:    "Consolas"
 
                         color: ChatBase.chatUsersTextColor(ChatBase.globalTheme)
                     }
