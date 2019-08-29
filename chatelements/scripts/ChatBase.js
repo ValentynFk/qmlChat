@@ -1,7 +1,7 @@
 .pragma library
 
 // TODO: remove global theme variable & replace corresponding statements
-const globalTheme = "dark"
+const globalTheme = "white"
 
 const golden_ratio    = 1.61803398875
 const gWhiteThemeName = "white"
@@ -110,7 +110,7 @@ function chatInputSelectionBackColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#1e262d";
+        return "#637d99";
     case gDarkThemeName:
         return "#b3bfc9";
     }
@@ -121,7 +121,7 @@ function chatInputSelectionTextColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#1e262d";
+        return "#b4d5f9";
     case gDarkThemeName:
         return "#b3bfc9";
     }

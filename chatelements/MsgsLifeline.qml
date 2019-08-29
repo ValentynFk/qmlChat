@@ -67,19 +67,19 @@ Item
 
             readonly property bool adjustRight: model.authorName === "ValentynFk" // TODO: change to global author name
 
-            anchors.right: messageAttributesColumn.adjustRight ?
-                               parent.right : undefined
             anchors.left:  messageAttributesColumn.adjustRight ?
                                undefined    : parent.left
+            anchors.right: messageAttributesColumn.adjustRight ?
+                               parent.right : undefined
 
             Row
             {
                 id: messageAttributesRow
 
-                anchors.right: messageAttributesColumn.adjustRight ?
-                                   parent.right : undefined
                 anchors.left:  messageAttributesColumn.adjustRight ?
                                    undefined    : parent.left
+                anchors.right: messageAttributesColumn.adjustRight ?
+                                   parent.right : undefined
 
                 Control
                 {
@@ -147,7 +147,8 @@ Item
                         wrapMode:      Label.Wrap
 
                         text: model.content
-                        color: ChatBase.chatMessageTextColor(ChatBase.globalTheme)
+                        color:          ChatBase.chatMessageTextColor(ChatBase.globalTheme)
+                        selectionColor: Qt.darker(messageBody.color, 1.5)
 
                         MouseArea
                         {
@@ -160,10 +161,10 @@ Item
                     RowLayout
                     {
                         anchors.fill: parent
-                        anchors.right: messageAttributesColumn.adjustRight ?
-                                           messageBody.right : undefined
                         anchors.left: messageAttributesColumn.adjustRight ?
                                            undefined : messageBody.left
+                        anchors.right: messageAttributesColumn.adjustRight ?
+                                           messageBody.right : undefined
                         anchors.leftMargin:  10
                         anchors.rightMargin: 15
 
@@ -244,15 +245,17 @@ Item
             {
                 id: timestampText
 
-                anchors.right: messageAttributesColumn.adjustRight ?
-                                   parent.right : undefined
                 anchors.left:  messageAttributesColumn.adjustRight ?
                                    undefined    : parent.left
+                anchors.right: messageAttributesColumn.adjustRight ?
+                                   parent.right : undefined
+                anchors.leftMargin:  5
+                anchors.rightMargin: 5
 
-                text: "  datehere  " //TODO: paste normal date
+                text: "date here"
                 color: ChatBase.backgroundTextColor(ChatBase.globalTheme)
 
-                font.pixelSize: 18
+                font.pixelSize: 15
                 font.family:    "Consolas"
                 font.bold:      true
             }
