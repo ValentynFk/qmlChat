@@ -4,7 +4,6 @@ import QtQuick.Layouts  1.3
 import QtQuick.Controls 2.0
 import "basicelements"       as BasicElements
 import "scripts/ChatBase.js" as ChatBase
-// TODO: import pair storm chat
 
 Item
 {
@@ -14,7 +13,7 @@ Item
     {
         anchors.fill: parent
 
-        color: ChatBase.backgroundColor(ChatBase.globalTheme)
+        color: ChatBase.backgroundColor(globalTheme)
 
         ListView
         {
@@ -38,8 +37,8 @@ Item
     {
         id: availableUsersModel
 
-        // TODO: replace model
-        model: ListModel {
+        model: ListModel
+        {
             //@disable-check M16
             ListElement { userName: "Vasia nickname and something"; isUserConnected: true; }
             //@disable-check M16
@@ -63,7 +62,7 @@ Item
                 width:  parent.width
                 height: availableUsers.height / 6
 
-                color: ChatBase.chatUsersBackgroundColor(ChatBase.globalTheme)
+                color: ChatBase.chatUsersBackgroundColor(globalTheme)
 
                 RowLayout
                 {
@@ -84,10 +83,10 @@ Item
                         clip:  true
 
                         font.pixelSize: userElement.height /
-                                        (ChatBase.golden_ratio)
+                                        (ChatBase.goldenRatio)
                         font.family:    "Consolas"
 
-                        color: ChatBase.chatUsersTextColor(ChatBase.globalTheme)
+                        color: ChatBase.chatUsersTextColor(globalTheme)
                     }
                     Control
                     {
@@ -101,7 +100,7 @@ Item
                         Layout.minimumWidth:   40
                         Layout.maximumWidth:   60
                         Layout.preferredWidth: userElement.width /
-                                               (ChatBase.golden_ratio * 5)
+                                               (ChatBase.goldenRatio * 5)
 
                         BasicElements.Switch
                         {
@@ -109,9 +108,9 @@ Item
 
                             anchors.fill:    parent
 
-                            onStateColor:    ChatBase.switchTurnedOnColor(ChatBase.globalTheme)
-                            offStateColor:   ChatBase.switchTurnedOffColor(ChatBase.globalTheme)
-                            widthToHeight:   ChatBase.golden_ratio
+                            onStateColor:    ChatBase.switchTurnedOnColor(globalTheme)
+                            offStateColor:   ChatBase.switchTurnedOffColor(globalTheme)
+                            widthToHeight:   ChatBase.goldenRatio
                             preferredWidth:  parent.width
                             preferredHeight: parent.height
 
@@ -142,7 +141,7 @@ Item
                     height: 1
                     radius: 1
 
-                    color: ChatBase.chatUsersSpacerColor(ChatBase.globalTheme)
+                    color: ChatBase.chatUsersSpacerColor(globalTheme)
                 }
             }
         }

@@ -26,13 +26,14 @@ ChatWidget::ChatWidget(QWidget *parent) :
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     //view->setWidth(this->width());
     //view->setHeight(this->height());
-    view->setSource(QUrl("qrc:/chat.qml"));
     //view->show();
 
     m_context = view->engine()->rootContext();
     //m_context->setContextProperty(QStringLiteral("something"), &something)
+    m_context->setContextProperty("globalUserName", "ValentynFk");
+    m_context->setContextProperty("globalTheme", "dark");
 
-
+    view->setSource(QUrl("qrc:/chat.qml"));
 
     //QQmlContext * context = view->engine()->rootContext();
     //context->setContextProperty("mode", "disabled");

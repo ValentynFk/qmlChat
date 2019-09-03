@@ -1,10 +1,9 @@
 import QtQuick          2.8
 import QtQml.Models     2.12
 import QtQuick.Layouts  1.3
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import "basicelements"       as BasicElements
 import "scripts/ChatBase.js" as ChatBase
-// TODO: import pair storm chat
 
 Item
 {
@@ -13,7 +12,7 @@ Item
     Rectangle
     {
         anchors.fill: parent
-        color: ChatBase.backgroundColor(ChatBase.globalTheme)
+        color: ChatBase.backgroundColor(globalTheme)
     }
     ListView
     {
@@ -38,13 +37,15 @@ Item
         }
 
         model: messagesModel
+
+        ScrollBar.vertical: ScrollBar {}
     }
     DelegateModel
     {
         id: messagesModel
 
-        // TODO: replace model
-        model: ListModel {
+        model: ListModel
+        {
             //@disable-check M16
             ListElement { authorName: "Vasia nickname and something"; type: "ordinary"; content: "hello" }
             //@disable-check M16
@@ -61,209 +62,223 @@ Item
             ListElement { authorName: "Peter"; type: "ordinary"; content: "hello" }
         }
 
-        delegate: Rectangle
+        delegate: Column
         {
-            id: messageBack
+            id: messageAttributesColumn
 
-            width: messagesHistory.width
-            height: messageAttributesColumn.implicitHeight
-            color: "transparent"
-            clip: true
+            readonly property bool adjustRight: model.authorName === globalUserName
 
-            onHeightChanged: {
-                console.log("height changed")
-            }
+            anchors.left:  messageAttributesColumn.adjustRight ?
+                               undefined    : parent.left
+            anchors.right: messageAttributesColumn.adjustRight ?
+                               parent.right : undefined
 
-            Column
+            anchors.rightMargin: 7
+            anchors.leftMargin:  7
+
+            Row
             {
-                id: messageAttributesColumn
-
-                readonly property bool adjustRight: model.authorName === "ValentynFk" // TODO: change to global author name
+                id: messageAttributesRow
 
                 anchors.left:  messageAttributesColumn.adjustRight ?
                                    undefined    : parent.left
                 anchors.right: messageAttributesColumn.adjustRight ?
                                    parent.right : undefined
 
-                clip: true
-
-                Row
+                Control
                 {
-                    id: messageAttributesRow
+                    id: leftToothShape
+                    z: 1
 
-                    anchors.left:  messageAttributesColumn.adjustRight ?
-                                       undefined    : parent.left
-                    anchors.right: messageAttributesColumn.adjustRight ?
-                                       parent.right : undefined
+                    anchors.bottom: messageBody.bottom
+                    width:  messageAttributesColumn.adjustRight ? 0 : 10
+                    height: messageAttributesColumn.adjustRight ? 0 : 15
 
-                    Control
+                    enabled: !messageAttributesColumn.adjustRight
+                    visible: !messageAttributesColumn.adjustRight
+
+                    BasicElements.ToothShapeToLeft
                     {
-                        id: leftToothShape
+                        anchors.fill: parent
 
-                        anchors.bottom: messageBody.bottom
-                        width:  messageAttributesColumn.adjustRight ? 0 : 10
-                        height: messageAttributesColumn.adjustRight ? 0 : 15
+                        itemColor:  messageBody.color
+                        maxHeight:  messageBody.height
+                        rightOffset: 16
+                    }
+                }
 
-                        enabled: !messageAttributesColumn.adjustRight
-                        visible: !messageAttributesColumn.adjustRight
+                Rectangle
+                {
+                    id: messageBody
+                    z: 2
 
-                        BasicElements.ToothShapeToLeft
+
+                    width:
+                    {
+                        return Math.min(Math.max(messageText.implicitWidth,
+                                                 messageAuthor.contentWidth) + 24,
+                                        messagesHistory.width - 70)
+                    }
+                    height: messageText.implicitHeight + 27
+                    radius: 10
+
+                    color:
+                    {
+                        if (model.type === "ordinary")
                         {
-                            anchors.fill: parent
-
-                            itemColor:  messageBody.color
-                            leftOffset: 16
-                            maxHeight:  20
+                            return messageAttributesColumn.adjustRight          ?
+                                   ChatBase.chatAuthorMessageColor(globalTheme) :
+                                   ChatBase.chatUserMessageColor(globalTheme)
+                        }
+                        if (model.type === "service")
+                        {
+                            return ChatBase.chatSystemMessageColor(globalTheme)
                         }
                     }
 
-                    Rectangle
+                    TextEdit
                     {
-                        id: messageBody
+                        id: messageText
 
-                        width:
+                        anchors.fill: parent
+                        anchors.margins:   10
+                        anchors.topMargin: 23
+
+                        selectByMouse: true
+                        readOnly:      true
+                        wrapMode:      TextEdit.Wrap
+
+                        text: qsTr(model.content + "\n")
+
+                        color:             ChatBase.chatMessageTextColor(globalTheme)
+                        selectionColor:    Qt.darker(messageBody.color, 1.3)
+                        selectedTextColor: color
+
+
+                        MouseArea
                         {
-                            return Math.min(Math.max(messageText.implicitWidth,
-                                                     messageAuthor.contentWidth) + 24,
-                                            messagesHistory.width - 70)
-                        }
-                        height: messageText.implicitHeight + 27
-                        radius: 10
+                            anchors.fill: parent
 
+                            enabled:     false
+                            cursorShape: Qt.IBeamCursor
+                        }
+                    }
+                    RowLayout
+                    {
+                        anchors.fill: parent
+                        anchors.left: messageAttributesColumn.adjustRight ?
+                                           undefined : messageBody.left
+                        anchors.right: messageAttributesColumn.adjustRight ?
+                                           messageBody.right : undefined
+                        anchors.leftMargin:  10
+                        anchors.rightMargin: 15
+
+                        Label
+                        {
+                            id: messageAuthor
+
+                            Layout.alignment: messageAttributesColumn.adjustRight ?
+                                                  Qt.AlignRight : Qt.AlignLeft
+                            Layout.fillHeight: true
+                            Layout.topMargin: 4
+
+                            Layout.preferredWidth:
+                            {
+                                return Math.min(messageBody.width - 10,
+                                                messageAuthor.implicitWidth)
+                            }
+                            text:  qsTr("  " + model.authorName)
+                            clip:  true
+                            elide: Text.ElideRight
+                            color: ChatBase.chatMessageTextColor(globalTheme)
+
+                            font.pixelSize: 15
+                            font.family:    "Consolas"
+                            font.bold:      true
+
+                            Image
+                            {
+                                width:  13
+                                height: 13
+
+                                mipmap:   true
+                                fillMode: Image.PreserveAspectFit
+
+                                source:
+                                {
+                                    if (model.type === "ordinary")
+                                    {
+                                        return "res/USER.svg"
+                                    }
+                                    if (model.type === "service")
+                                    {
+                                        return "res/SYSTEM.svg"
+                                    }
+                                }
+                                sourceSize: Qt.size(width, height)
+                            }
+                        }
+                    }
+                    Label
+                    {
+                        id: timestampText
+
+                        //anchors.right: messageBody.right
+                        //wrapMode: Label.Wrap
+                        /*
+
+                        anchors.left:  messageAttributesColumn.adjustRight ?
+                                           undefined    : parent.left
+                        anchors.right: messageAttributesColumn.adjustRight ?
+                                           parent.right : undefined
+                        */
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 2
+                        //anchors.leftMargin:  5
+                        anchors.rightMargin: 8
+
+
+                        text:  Qt.formatDateTime(model.publicationDateTime, "h:mm AP")
                         color:
                         {
                             if (model.type === "ordinary")
                             {
-                                return messageAttributesColumn.adjustRight                   ?
-                                       ChatBase.chatAuthorMessageColor(ChatBase.globalTheme) :
-                                       ChatBase.chatUserMessageColor(ChatBase.globalTheme)
+                                return messageAttributesColumn.adjustRight          ?
+                                       ChatBase.chatAuthorMessageDateColor(globalTheme) :
+                                       ChatBase.chatUserMessageDateColor(globalTheme)
                             }
                             if (model.type === "service")
                             {
-                                return ChatBase.chatSystemMessageColor(ChatBase.globalTheme)
+                                return ChatBase.chatSystemMessageDateColor(globalTheme)
                             }
                         }
 
-                        TextEdit
-                        {
-                            id: messageText
-
-                            anchors.fill: parent
-                            anchors.margins:   10
-                            anchors.topMargin: 23
-
-                            selectByMouse: true
-                            readOnly:      true
-                            wrapMode:      Label.Wrap
-
-                            text: model.content
-                            color:             ChatBase.chatMessageTextColor(ChatBase.globalTheme)
-                            selectionColor:    Qt.darker(messageBody.color, 1.3)
-                            selectedTextColor: color
-
-                            MouseArea
-                            {
-                                anchors.fill: parent
-
-                                enabled:     false
-                                cursorShape: Qt.IBeamCursor
-                            }
-                        }
-                        RowLayout
-                        {
-                            anchors.fill: parent
-                            anchors.left: messageAttributesColumn.adjustRight ?
-                                               undefined : messageBody.left
-                            anchors.right: messageAttributesColumn.adjustRight ?
-                                               messageBody.right : undefined
-                            anchors.leftMargin:  10
-                            anchors.rightMargin: 15
-
-                            Label
-                            {
-                                id: messageAuthor
-
-                                Layout.alignment: messageAttributesColumn.adjustRight ?
-                                                      Qt.AlignRight : Qt.AlignLeft
-                                Layout.fillHeight: true
-                                Layout.topMargin: 4
-
-                                Layout.preferredWidth:
-                                {
-                                    return Math.min(messageBody.width - 10,
-                                                    messageAuthor.implicitWidth)
-                                }
-                                text:  qsTr("  " + model.authorName)
-                                clip:  true
-                                elide: Text.ElideRight
-                                color: ChatBase.chatMessageTextColor(ChatBase.globalTheme)
-
-                                font.pixelSize: 15
-                                font.family:    "Consolas"
-                                font.bold:      true
-
-                                Image
-                                {
-                                    width:  13
-                                    height: 13
-
-                                    mipmap:   true
-                                    fillMode: Image.PreserveAspectFit
-
-                                    source:
-                                    {
-                                        if (model.type === "ordinary")
-                                        {
-                                            return "res/USER.svg"
-                                        }
-                                        if (model.type === "service")
-                                        {
-                                            return "res/SYSTEM.svg"
-                                        }
-                                    }
-                                    sourceSize: Qt.size(width, height)
-                                }
-                            }
-                        }
-                    }
-                    Control
-                    {
-                        id: rightToothShape
-
-                        anchors.bottom: messageBody.bottom
-                        width:  messageAttributesColumn.adjustRight ? 10 : 0
-                        height: messageAttributesColumn.adjustRight ? 15 : 0
-
-                        enabled: messageAttributesColumn.adjustRight
-                        visible: messageAttributesColumn.adjustRight
-
-                        BasicElements.ToothShapeToRight
-                        {
-                            anchors.fill: parent
-
-                            itemColor:  messageBody.color
-                            leftOffset: 16
-                            maxHeight:  20
-                        }
+                        font.pixelSize: 12
+                        font.family:    "Hack"
+                        font.bold:      true
                     }
                 }
-                Label
+                Control
                 {
-                    id: timestampText
+                    id: rightToothShape
+                    z: 1
 
-                    anchors.left:  messageAttributesColumn.adjustRight ?
-                                       undefined    : parent.left
-                    anchors.right: messageAttributesColumn.adjustRight ?
-                                       parent.right : undefined
-                    anchors.leftMargin:  5
-                    anchors.rightMargin: 5
+                    anchors.bottom: messageBody.bottom
+                    width:  messageAttributesColumn.adjustRight ? 10 : 0
+                    height: messageAttributesColumn.adjustRight ? 15 : 0
 
-                    text: "date here"
-                    color: ChatBase.backgroundTextColor(ChatBase.globalTheme)
+                    enabled: messageAttributesColumn.adjustRight
+                    visible: messageAttributesColumn.adjustRight
 
-                    font.pixelSize: 15
-                    font.family:    "Consolas"
-                    font.bold:      true
+                    BasicElements.ToothShapeToRight
+                    {
+                        anchors.fill: parent
+
+                        itemColor:  messageBody.color
+                        maxHeight:  messageBody.height
+                        leftOffset: 16
+                    }
                 }
             }
         }

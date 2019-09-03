@@ -12,7 +12,7 @@ Item
     Rectangle
     {
         anchors.fill: chatBody
-        color: ChatBase.backgroundColor(ChatBase.globalTheme)
+        color: ChatBase.backgroundColor(globalTheme)
     }
     ColumnLayout
     {
@@ -28,10 +28,11 @@ Item
             Layout.minimumHeight:   40
             Layout.maximumHeight:   130
             Layout.preferredHeight: chatBody.height /
-                                    (ChatBase.golden_ratio * 2)
+                                    (ChatBase.goldenRatio * 2)
 
             RowLayout
             {
+                z: 2
                 id: usersAndControlLayout
 
                 width:  parent.availableWidth
@@ -54,17 +55,18 @@ Item
                     Layout.minimumWidth:    30
                     Layout.maximumWidth:    40
                     Layout.preferredWidth:  chatBody.width /
-                                            (ChatBase.golden_ratio * 6)
+                                            (ChatBase.goldenRatio * 6)
                     Layout.minimumHeight:   30
                     Layout.maximumHeight:   40
                     Layout.preferredHeight: chatBody.height /
-                                            (ChatBase.golden_ratio * 7)
+                                            (ChatBase.goldenRatio * 7)
                 }
             }
         }
         ChatComponents.MsgsLifeline
         {
             id: messagesHistory
+            z: 1
 
             Layout.alignment:  Qt.AlignCenter
             Layout.fillWidth:  true
@@ -73,6 +75,7 @@ Item
         ChatComponents.MsgInputArea
         {
             id: inputMessageArea
+            z: 2
 
             Layout.alignment:       Qt.AlignCenter
             Layout.fillWidth:       true

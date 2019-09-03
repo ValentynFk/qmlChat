@@ -1,9 +1,6 @@
 .pragma library
 
-// TODO: remove global theme variable & replace corresponding statements
-const globalTheme = "blue"
-
-const golden_ratio    = 1.61803398875
+const goldenRatio     = 1.61803398875
 const gWhiteThemeName = "white"
 const gBlueThemeName  = "blue"
 const gDarkThemeName  = "dark"
@@ -53,6 +50,21 @@ function chatUserMessageColor(themeName)
     }
 }
 
+function chatUserMessageDateColor(themeName)
+{
+    switch(themeName)
+    {
+    case gWhiteThemeName:
+        return "#436697";
+    case gBlueThemeName:
+        return "#2692c8";
+    case gDarkThemeName:
+        return "#6193b0";
+    default:
+        return "#436697";
+    }
+}
+
 function chatAuthorMessageColor(themeName)
 {
     switch(themeName)
@@ -68,7 +80,37 @@ function chatAuthorMessageColor(themeName)
     }
 }
 
+function chatAuthorMessageDateColor(themeName)
+{
+    switch(themeName)
+    {
+    case gWhiteThemeName:
+        return "#4e6072";
+    case gBlueThemeName:
+        return "#2482d2";
+    case gDarkThemeName:
+        return "#659bc3";
+    default:
+        return "#4e6072";
+    }
+}
+
 function chatSystemMessageColor(themeName)
+{
+    switch(themeName)
+    {
+    case gWhiteThemeName:
+        return "#438497";
+    case gBlueThemeName:
+        return "#63952d";
+    case gDarkThemeName:
+        return "#65b0c3";
+    default:
+        return "#438497";
+    }
+}
+
+function chatSystemMessageDateColor(themeName)
 {
     switch(themeName)
     {
