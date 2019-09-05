@@ -1,5 +1,6 @@
 import QtQuick          2.8
 import QtQml.Models     2.12
+//import PairStormChat    1.0
 import QtQuick.Layouts  1.3
 import QtQuick.Controls 2.5
 import "basicelements"       as BasicElements
@@ -44,6 +45,7 @@ Item
     {
         id: messagesModel
 
+        // TODO: replace model
         model: ListModel
         {
             //@disable-check M16
@@ -61,6 +63,10 @@ Item
             //@disable-check M16
             ListElement { authorName: "Peter"; type: "ordinary"; content: "hello" }
         }
+        //model: MessagesModel
+        //{
+        //    list: messagesList
+        //}
 
         delegate: Column
         {
@@ -150,6 +156,9 @@ Item
 
                         text: qsTr(model.content + "\n")
 
+                        font.pixelSize: 12
+                        font.family:    "Menlo"
+
                         color:             ChatBase.chatMessageTextColor(globalTheme)
                         selectionColor:    Qt.darker(messageBody.color, 1.3)
                         selectedTextColor: color
@@ -187,13 +196,13 @@ Item
                                 return Math.min(messageBody.width - 10,
                                                 messageAuthor.implicitWidth)
                             }
-                            text:  qsTr("  " + model.authorName)
+                            text:  qsTr("    " + model.authorName)
                             clip:  true
                             elide: Text.ElideRight
                             color: ChatBase.chatMessageTextColor(globalTheme)
 
-                            font.pixelSize: 15
-                            font.family:    "Consolas"
+                            font.pixelSize: 14
+                            font.family:    "Roboto"
                             font.bold:      true
 
                             Image
@@ -223,23 +232,15 @@ Item
                     {
                         id: timestampText
 
-                        //anchors.right: messageBody.right
-                        //wrapMode: Label.Wrap
-                        /*
-
-                        anchors.left:  messageAttributesColumn.adjustRight ?
-                                           undefined    : parent.left
-                        anchors.right: messageAttributesColumn.adjustRight ?
-                                           parent.right : undefined
-                        */
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 2
-                        //anchors.leftMargin:  5
                         anchors.rightMargin: 8
 
 
-                        text:  Qt.formatDateTime(model.publicationDateTime, "h:mm AP")
+                        // TODO: changed date
+                        //text:  Qt.formatDateTime(model.publicationDateTime, "h:mm AP")
+                        text: "8:31 AM"
                         color:
                         {
                             if (model.type === "ordinary")
@@ -254,8 +255,8 @@ Item
                             }
                         }
 
-                        font.pixelSize: 12
-                        font.family:    "Hack"
+                        font.pixelSize: 11
+                        font.family:    "Monaco"
                         font.bold:      true
                     }
                 }

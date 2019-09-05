@@ -1,5 +1,6 @@
 import QtQuick          2.8
 import QtQml.Models     2.12
+//import PairStormChat    1.0
 import QtQuick.Layouts  1.3
 import QtQuick.Controls 2.0
 import "basicelements"       as BasicElements
@@ -37,6 +38,7 @@ Item
     {
         id: availableUsersModel
 
+        // TODO: replace model
         model: ListModel
         {
             //@disable-check M16
@@ -52,6 +54,10 @@ Item
             //@disable-check M16
             ListElement { userName: "Roman nickname"; isUserConnected: false; }
         }
+        //model: UsersModel
+        //{
+        //    list: usersList
+        //}
 
         delegate: Component
         {

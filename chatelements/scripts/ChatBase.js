@@ -55,13 +55,13 @@ function chatUserMessageDateColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#436697";
+        return "#8aafe2";
     case gBlueThemeName:
-        return "#2692c8";
+        return "#5db8e6";
     case gDarkThemeName:
-        return "#6193b0";
+        return "#2d556c";
     default:
-        return "#436697";
+        return "#8aafe2";
     }
 }
 
@@ -85,13 +85,13 @@ function chatAuthorMessageDateColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#4e6072";
+        return "#88a2bc";
     case gBlueThemeName:
-        return "#2482d2";
+        return "#6bb2ef";
     case gDarkThemeName:
-        return "#659bc3";
+        return "#305f80";
     default:
-        return "#4e6072";
+        return "#88a2bc";
     }
 }
 
@@ -115,13 +115,13 @@ function chatSystemMessageDateColor(themeName)
     switch(themeName)
     {
     case gWhiteThemeName:
-        return "#438497";
+        return "#7ec5d9";
     case gBlueThemeName:
-        return "#63952d";
+        return "#91bf60";
     case gDarkThemeName:
-        return "#65b0c3";
+        return "#3b7482";
     default:
-        return "#438497";
+        return "#7ec5d9";
     }
 }
 
