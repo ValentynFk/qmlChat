@@ -49,19 +49,19 @@ Item
         model: ListModel
         {
             //@disable-check M16
-            ListElement { authorName: "Vasia nickname and something"; type: "ordinary"; content: "hello" }
+            ListElement { authorName: "Vasia very very long nickname"; type: "ordinary"; content: "Hello" }
             //@disable-check M16
-            ListElement { authorName: "PairStorm"; type: "service"; content: "hello from Pair storm application" }
+            ListElement { authorName: "PairStorm"; type: "service"; content: "Greetings, sent from PairStorm application" }
             //@disable-check M16
-            ListElement { authorName: "PairStorm"; type: "service"; content: "you cannot log in twice" }
+            ListElement { authorName: "PairStorm"; type: "service"; content: "Notification that you cannot log in twice" }
             //@disable-check M16
-            ListElement { authorName: "Diana nickname"; type: "ordinary"; content: "pruvit" }
+            ListElement { authorName: "DiankaNak"; type: "ordinary"; content: "Hi, how's your day, vasia with very long nickname" }
             //@disable-check M16
-            ListElement { authorName: "ValntynFk"; type: "ordinary"; content: "hello" }
+            ListElement { authorName: "ValentynFk"; type: "ordinary"; content: "Should we concentrate upon code more??" }
             //@disable-check M16
-            ListElement { authorName: "ValentynFk"; type: "ordinary"; content: "flkj dsalkfjdsalkfj dslk jflksda ffdsalhflkds halkfhdsalkh flhdsa klflkdsa;hf ksadhlkf; dshakfl;hdsalk ;flkdsa flk hsalkf hsdalk hf;lkdsahfdsa ;" }
+            ListElement { authorName: "ValentynFk"; type: "ordinary"; content: "Very long message, and very long message, and very long message, and very long message, and very long message, and very long message, and very long message, and some text again" }
             //@disable-check M16
-            ListElement { authorName: "Peter"; type: "ordinary"; content: "hello" }
+            ListElement { authorName: "PeterLysyk"; type: "ordinary"; content: "Hey, you - don't spam here! >_<" }
         }
         //model: MessagesModel
         //{

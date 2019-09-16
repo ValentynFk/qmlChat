@@ -31,7 +31,7 @@ ChatWidget::ChatWidget(QWidget *parent) :
     m_context = view->engine()->rootContext();
     //m_context->setContextProperty(QStringLiteral("something"), &something)
     m_context->setContextProperty("globalUserName", "ValentynFk");
-    m_context->setContextProperty("globalTheme", "blue");
+    m_context->setContextProperty("globalTheme", "white");
 
     view->setSource(QUrl("qrc:/chat.qml"));
 

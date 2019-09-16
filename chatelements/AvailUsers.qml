@@ -42,17 +42,17 @@ Item
         model: ListModel
         {
             //@disable-check M16
-            ListElement { userName: "Vasia nickname and something"; isUserConnected: true; }
+            ListElement { userName: "Vasia very very long nickname"; isUserConnected: true; }
             //@disable-check M16
-            ListElement { userName: "Diana nickname"; isUserConnected: true; }
+            ListElement { userName: "DiankaNak"; isUserConnected: true; }
             //@disable-check M16
-            ListElement { userName: "Petia nickname"; isUserConnected: false; }
+            ListElement { userName: "PeterLysyk"; isUserConnected: true; }
             //@disable-check M16
-            ListElement { userName: "Bohdan nickname"; isUserConnected: false; }
+            ListElement { userName: "Bohdanion"; isUserConnected: false; }
             //@disable-check M16
-            ListElement { userName: "Dima nickname"; isUserConnected: false; }
+            ListElement { userName: "Matsa"; isUserConnected: false; }
             //@disable-check M16
-            ListElement { userName: "Roman nickname"; isUserConnected: false; }
+            ListElement { userName: "DimonPestr"; isUserConnected: false; }
         }
         //model: UsersModel
         //{
